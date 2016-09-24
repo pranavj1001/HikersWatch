@@ -10,20 +10,23 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends Activity implements LocationListener {
+public class MainActivity extends AppCompatActivity implements LocationListener {
 
     LocationManager locationManager;
+    Location location;
     String provider;
     String sLatitude;
     String sLongitude;
@@ -42,7 +45,7 @@ public class MainActivity extends Activity implements LocationListener {
         setContentView(R.layout.activity_main);
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        provider = locationManager.getBestProvider(new Criteria(),false);
+        provider = locationManager.getBestProvider(new Criteria(), false);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -54,10 +57,13 @@ public class MainActivity extends Activity implements LocationListener {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        Location location = locationManager.getLastKnownLocation(provider);
+
+        locationManager.requestLocationUpdates(provider,400,1,this);
+        location = locationManager.getLastKnownLocation(provider);
 
         if(location==null){
-            Log.i("Location1","NULL1");
+            Log.i("Location1","NULL");
+            Toast.makeText(this,"Location not found",Toast.LENGTH_SHORT).show();
         }
 
         if(location!=null) {
@@ -82,13 +88,11 @@ public class MainActivity extends Activity implements LocationListener {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        locationManager.requestLocationUpdates(provider, 400, 1, this);
+        locationManager.requestLocationUpdates(provider, 0, 1, this);
     }
 
     @Override
     public void onLocationChanged(Location location) {
-
-
 
         Double lat = location.getLatitude();
         Double lng = location.getLongitude();
