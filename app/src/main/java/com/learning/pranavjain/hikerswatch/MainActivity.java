@@ -1,7 +1,6 @@
 package com.learning.pranavjain.hikerswatch;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -10,7 +9,6 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,8 +31,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     String sAccuracy;
     String sSpeed;
     String sAltitude;
-    TextView addressTV;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         TextView accuracy = (TextView) findViewById(R.id.accuracy);
         TextView speed = (TextView) findViewById(R.id.speed);
         TextView altitude = (TextView) findViewById(R.id.altitude);
-        addressTV = (TextView) findViewById(R.id.address);
+        TextView addressTV = (TextView) findViewById(R.id.address);
 
         sLatitude = latitude.getText().toString();
         sLongitude = longitude.getText().toString();
@@ -189,4 +185,5 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         locationManager.removeUpdates(this);
 
     }
+
 }
